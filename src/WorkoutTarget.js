@@ -1,10 +1,16 @@
 import React from "react";
+import styled from "styled-components";
+
+const CheckboxForm = styled.form`
+  display: grid;
+  grid-template-columns: 200px 100px;
+`;
 
 export default function WorkoutTarget({ changeTarget }) {
   return (
     <div>
       <h2>Workout Targets</h2>
-      <form action="" onChange={changeTarget}>
+      <CheckboxForm onChange={changeTarget}>
         <label htmlFor="legs">Legs</label>
         <input type="checkbox" name="legs" defaultChecked />
         <label htmlFor="back">Back</label>
@@ -15,7 +21,7 @@ export default function WorkoutTarget({ changeTarget }) {
         <input type="checkbox" name="arms" defaultChecked />
         <label htmlFor="chest">Chest</label>
         <input type="checkbox" name="chest" defaultChecked />
-      </form>
+      </CheckboxForm>
     </div>
   );
 }

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import Container from "react-bootstrap/Container";
-import "bootstrap/dist/css/bootstrap.min.css";
-import WorkoutTarget from "./WorkoutTarget";
-import WorkoutLimit from "./WorkoutLimit";
+import { Container } from "./Layout/Container";
+import { WorkoutHeader } from "./Layout/WorkoutHeader";
+import WorkoutFilter from "./WorkoutFilter";
+import WorkoutRoutine from "./WorkoutRoutine";
 
 class App extends Component {
   state = {
@@ -10,6 +10,10 @@ class App extends Component {
     target: [],
     limit: 10,
   };
+
+  componentDidMount() {
+    this.getRandomWorkout();
+  }
 
   async getRandomWorkout() {
     const response = await fetch(
@@ -43,22 +47,15 @@ class App extends Component {
   render() {
     return (
       <Container>
-        <header>
+        <WorkoutHeader>
           <h1>Random Workout Generator</h1>
-        </header>
-        <span role="img" aria-label="flexed bicep">
-          💪
-        </span>
-        <button onClick={this.getRandomWorkout.bind(this)}>
-          Generate Workout
-        </button>
-        <WorkoutTarget changeTarget={this.changeTarget.bind(this)} />
-        <WorkoutLimit changeLimit={this.changeLimit.bind(this)} />
-        <div>
-          {this.state.routine.map((exercise) => (
-            <div>{exercise}</div>
-          ))}
-        </div>
+        </WorkoutHeader>
+        <WorkoutFilter
+          changeTarget={this.changeTarget.bind(this)}
+          changeLimit={this.changeLimit.bind(this)}
+          getRandomWorkout={this.getRandomWorkout.bind(this)}
+        />
+        <WorkoutRoutine routine={this.state.routine} />
       </Container>
     );
   }

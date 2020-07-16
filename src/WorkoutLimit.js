@@ -3,7 +3,7 @@ import React from "react";
 export default function WorkoutLimit({ changeLimit }) {
   return (
     <div>
-      <label htmlFor="limit">Max No. Random Exercises</label>
+      <h2>Maximum Exercises</h2>
       <input
         type="number"
         name="limit"
@@ -11,6 +11,7 @@ export default function WorkoutLimit({ changeLimit }) {
         defaultValue="10"
         max="20"
         onChange={changeLimit}
+        style={{ width: `130px` }}
       />
     </div>
   );
