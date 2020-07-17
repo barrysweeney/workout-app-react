@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Container } from "./Layout/Container";
-import { WorkoutHeader } from "./Layout/WorkoutHeader";
+import WorkoutHeader from "./Layout/WorkoutHeader";
 import WorkoutFilter from "./WorkoutFilter";
 import WorkoutRoutine from "./WorkoutRoutine";
 
@@ -11,10 +11,13 @@ class App extends Component {
     limit: 10,
   };
 
+  // display a routine of 10 random exercises on page load
   componentDidMount() {
     this.getRandomWorkout();
   }
 
+  // GET request for workout based on filters stored in state
+  // response routine is then stored in state
   async getRandomWorkout() {
     const response = await fetch(
       `http://localhost:8080/workout?type=${this.state.target.join(
@@ -27,6 +30,8 @@ class App extends Component {
     });
   }
 
+  // specifies the target muscle groups
+  // pushes the muscle groups of checked input boxes to state
   changeTarget(e) {
     const inputElements = [...e.currentTarget.childNodes].filter(
       (n) => n instanceof HTMLInputElement && n.checked
@@ -38,6 +43,7 @@ class App extends Component {
     });
   }
 
+  // stores the max number of exercises to return in to state
   changeLimit(e) {
     this.setState({
       limit: e.target.value,
@@ -47,9 +53,7 @@ class App extends Component {
   render() {
     return (
       <Container>
-        <WorkoutHeader>
-          <h1>Random Workout Generator</h1>
-        </WorkoutHeader>
+        <WorkoutHeader />
         <WorkoutFilter
           changeTarget={this.changeTarget.bind(this)}
           changeLimit={this.changeLimit.bind(this)}

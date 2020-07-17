@@ -1,4 +1,14 @@
+import React from "react";
 import styled from "styled-components";
-export const WorkoutHeader = styled.header`
+
+const HeadingWrapper = styled.header`
   grid-area: header;
 `;
+
+export default function WorkoutHeader() {
+  return (
+    <HeadingWrapper>
+      <h1>Random Workout Generator</h1>
+    </HeadingWrapper>
+  );
+}

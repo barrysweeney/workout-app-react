@@ -1,9 +1,0 @@
-{
-  "short_name": "Random Workout Generator",
-  "name": "Random Workout Generator",
-  "icons": [],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#0d2b39"
-}

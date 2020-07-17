@@ -16,6 +16,7 @@ const GenerateButtonWrapper = styled.button`
     border: 1px solid black;
   }
 `;
+
 export default function GenerateButton({ getRandomWorkout }) {
   return (
     <GenerateButtonWrapper onClick={getRandomWorkout}>
