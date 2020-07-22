@@ -20,7 +20,7 @@ class App extends Component {
   // response routine is then stored in state
   async getRandomWorkout() {
     const response = await fetch(
-      `http://localhost:8080/workout?type=${this.state.target.join(
+      `https://fast-eyrie-14303.herokuapp.com/workout?type=${this.state.target.join(
         ","
       )}&limit=${this.state.limit}`
     );
