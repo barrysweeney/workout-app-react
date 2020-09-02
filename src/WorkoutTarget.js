@@ -21,6 +21,8 @@ export default function WorkoutTarget({ changeTarget }) {
         <input type="checkbox" name="arms" defaultChecked />
         <label htmlFor="chest">Chest</label>
         <input type="checkbox" name="chest" defaultChecked />
+        <label htmlFor="bjj">BJJ Solo Drills</label>
+        <input type="checkbox" name="bjj" defaultChecked />
       </CheckboxForm>
     </div>
   );
