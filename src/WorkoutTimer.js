@@ -144,7 +144,7 @@ export default class WorkoutTimer extends Component {
                 timeOn: initialTimeOn,
                 counter: 0,
                 paused: true,
-                rounds: this.state.currentRound + 1,
+                currentRound: this.state.currentRound + 1,
               })
             } else {
               this.setState({
