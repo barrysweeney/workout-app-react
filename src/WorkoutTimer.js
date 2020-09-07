@@ -145,8 +145,8 @@ export default class WorkoutTimer extends Component {
           <input type="time" name="timeOff" min="00:00" max="60:00" defaultValue="00:20" onChange={this.setTimeOff.bind(this)} />
         </HIITController>
         <PlayController>
-        <Button  clickHandler={this.startOnTimer.bind(this)} ><FaPlay/></Button>
-        <Button clickHandler={this.pauseTimer.bind(this)} ><FaPause/></Button>
+        <Button  clickHandler={this.startOnTimer.bind(this)}>Start <FaPlay/></Button>
+        <Button clickHandler={this.pauseTimer.bind(this)} >Pause <FaPause/></Button>
         </PlayController>
         <TimerDisplay timeRemaining={this.state.isOn ? this.state.timeOn : this.state.timeOff} routine={this.props.routine} isOn={this.state.isOn} counter={this.state.counter} />
       </TimerWrapper>
