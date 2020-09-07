@@ -31,11 +31,15 @@ export default class WorkoutTimer extends Component {
     counter: 0,
     timeOn: "00:40",
     timeOff: "00:20",
+    rounds: 3,
     isOn: false,
     paused: true,
+    currentRound: 1,
+    complete: false,
   };
 
-  audio = new Audio("https://ia800201.us.archive.org/10/items/Sound_Effects/school%20bell.ogg")
+  shortBell = new Audio("https://ia800201.us.archive.org/10/items/Sound_Effects/school%20bell.ogg");
+  longBell = new Audio("https://ia800201.us.archive.org/10/items/Sound_Effects/schoolbell%20long.ogg");
 
   setTimeOn(e) {
     this.setState({
@@ -53,9 +57,17 @@ export default class WorkoutTimer extends Component {
     })
   }
 
+  setRounds(e) {
+    this.setState({
+      rounds: e.target.value,
+      counter: 0,
+      paused: true,
+    })
+  }
+
   async startOffTimer() {
     if (this.state.paused) {
-      this.audio.play();
+      this.shortBell.play();
       await this.setState({
         isOn: false,
         paused: false,
@@ -93,38 +105,57 @@ export default class WorkoutTimer extends Component {
 
 
   async startOnTimer() {
-    if (this.state.paused) {
-      this.audio.play();
-      await this.setState({
-        isOn: true,
-        paused: false,
-      })
-      const initialTimeOn = this.state.timeOn;
-      let mins = parseInt(this.state.timeOn.split(":")[0]);
-      let seconds = parseInt(this.state.timeOn.split(":")[1]);
-      while (seconds > 0) {
+    if (this.props.routine.length > 0) {
+      if (this.state.currentRound > this.state.rounds) {
+        this.setState({
+          complete: true,
+        })
+        this.longBell.play();
+      } else {
         if (this.state.paused) {
-          break;
+          this.shortBell.play();
+          await this.setState({
+            isOn: true,
+            paused: false,
+            complete: false,
+          })
+          const initialTimeOn = this.state.timeOn;
+          let mins = parseInt(this.state.timeOn.split(":")[0]);
+          let seconds = parseInt(this.state.timeOn.split(":")[1]);
+          while (seconds > 0) {
+            if (this.state.paused) {
+              break;
+            }
+            await this.wait(1000);
+            seconds -= 1;
+            let formattedMins = mins < 10 ? "0" + mins : mins;
+            let formattedSeconds = seconds < 10 ? "0" + seconds : seconds;
+            this.setState({
+              timeOn: formattedMins + ":" + formattedSeconds,
+            })
+            if (seconds === 0 && mins > 0) {
+              mins -= 1;
+              seconds = 60;
+            }
+          }
+          if (!this.state.paused) {
+            if (this.state.counter + 1 === this.props.routine.length) {
+              this.setState({
+                timeOn: initialTimeOn,
+                counter: 0,
+                paused: true,
+                rounds: this.state.currentRound + 1,
+              })
+            } else {
+              this.setState({
+                timeOn: initialTimeOn,
+                counter: this.state.counter + 1,
+                paused: true,
+              })
+            }
+            this.startOffTimer();
+          }
         }
-        await this.wait(1000);
-        seconds -= 1;
-        let formattedMins = mins < 10 ? "0" + mins : mins;
-        let formattedSeconds = seconds < 10 ? "0" + seconds : seconds;
-        this.setState({
-          timeOn: formattedMins + ":" + formattedSeconds,
-        })
-        if (seconds === 0 && mins > 0) {
-          mins -= 1;
-          seconds = 60;
-        }
-      }
-      if (!this.state.paused) {
-        this.setState({
-          timeOn: initialTimeOn,
-          counter: this.state.counter + 1,
-          paused: true,
-        })
-        this.startOffTimer();
       }
     }
   }
@@ -143,12 +174,24 @@ export default class WorkoutTimer extends Component {
           <input type="time" name="timeOn" min="00:00" max="60:00" defaultValue="00:40" onChange={this.setTimeOn.bind(this)} />
           <label for="timeOff">Time Off</label>
           <input type="time" name="timeOff" min="00:00" max="60:00" defaultValue="00:20" onChange={this.setTimeOff.bind(this)} />
+          <label for="rounds">Rounds</label>
+          <input
+            type="number"
+            name="rounds"
+            min="1"
+            defaultValue="3"
+            max="100"
+            onChange={this.setRounds.bind(this)}
+            style={{ width: `130px` }}
+          />
         </HIITController>
         <PlayController>
-        <Button  clickHandler={this.startOnTimer.bind(this)}>Start <FaPlay/></Button>
-        <Button clickHandler={this.pauseTimer.bind(this)} >Pause <FaPause/></Button>
+          <Button clickHandler={this.startOnTimer.bind(this)}>Start <FaPlay /></Button>
+          <Button clickHandler={this.pauseTimer.bind(this)} >Pause <FaPause /></Button>
         </PlayController>
-        <TimerDisplay timeRemaining={this.state.isOn ? this.state.timeOn : this.state.timeOff} routine={this.props.routine} isOn={this.state.isOn} counter={this.state.counter} />
+        {this.state.complete ? <div>Workout complete</div> :
+          <TimerDisplay timeRemaining={this.state.isOn ? this.state.timeOn : this.state.timeOff} routine={this.props.routine} isOn={this.state.isOn} counter={this.state.counter} />
+        }
       </TimerWrapper>
     );
   }
