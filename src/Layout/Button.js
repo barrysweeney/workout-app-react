@@ -1,8 +1,7 @@
 import styled from "styled-components";
-import React from "react";
+import React, { Component } from "react";
 
-const GenerateButtonWrapper = styled.button`
-  margin: 10px 0;
+const ButtonWrapper = styled.button`
   padding: 10px;
   border-radius: 5px;
   text-transform: uppercase;
@@ -17,10 +16,12 @@ const GenerateButtonWrapper = styled.button`
   }
 `;
 
-export default function GenerateButton({ getRandomWorkout }) {
+export default class Button extends Component{
+  render(){
   return (
-    <GenerateButtonWrapper onClick={getRandomWorkout}>
-      Generate Workout
-    </GenerateButtonWrapper>
+    <ButtonWrapper onClick={this.props.clickHandler}>
+      {this.props.buttonText}
+    </ButtonWrapper>
   );
+  }
 }

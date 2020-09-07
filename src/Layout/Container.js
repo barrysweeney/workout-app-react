@@ -8,11 +8,13 @@ export const Container = styled.div`
   grid-gap: 10px;
   grid-template-areas:
     "header header"
-    "filter routine";
+    "filter routine" 
+    "timer timer";
   @media only screen and (max-width: 580px) {
     grid-template-areas:
       "header"
       "filter"
-      "routine";
+      "routine"
+      "timer";
   }
 `;

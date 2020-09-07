@@ -1,7 +1,7 @@
 import React from "react";
 import WorkoutTarget from "./WorkoutTarget";
 import WorkoutLimit from "./WorkoutLimit";
-import GenerateButton from "./Layout/GenerateButton";
+import Button from "./Layout/Button";
 import styled from "styled-components";
 
 const FilterWrapper = styled.div`
@@ -19,6 +19,12 @@ const FilterWrapper = styled.div`
   }
 `;
 
+
+const LimitContainer = styled.div`
+display: grid;
+grid-gap: 10px;
+`
+
 export default function WorkoutFilter({
   changeLimit,
   changeTarget,
@@ -27,10 +33,10 @@ export default function WorkoutFilter({
   return (
     <FilterWrapper>
       <WorkoutTarget changeTarget={changeTarget} />
-      <div>
+      <LimitContainer>
         <WorkoutLimit changeLimit={changeLimit} />
-        <GenerateButton getRandomWorkout={getRandomWorkout} />
-      </div>
+        <Button clickHandler={getRandomWorkout} buttonText={"Generate Workout"}/>
+      </LimitContainer>
     </FilterWrapper>
   );
 }
