@@ -35,7 +35,7 @@ export default function WorkoutFilter({
       <WorkoutTarget changeTarget={changeTarget} />
       <LimitContainer>
         <WorkoutLimit changeLimit={changeLimit} />
-        <Button clickHandler={getRandomWorkout} buttonText={"Generate Workout"}/>
+        <Button clickHandler={getRandomWorkout} >Generate Workout</Button>
       </LimitContainer>
     </FilterWrapper>
   );

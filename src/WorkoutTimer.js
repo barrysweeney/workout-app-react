@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { FaPause, FaPlay } from 'react-icons/fa';
 import styled from "styled-components";
 import Button from "./Layout/Button";
 import TimerDisplay from "./TimerDisplay";
@@ -18,6 +19,11 @@ const TimerWrapper = styled.div`
 
 const HIITController = styled.div`
 display: grid;
+`
+
+const PlayController = styled.div`
+display:grid;
+grid-template-columns: 1fr 1fr;
 `
 
 export default class WorkoutTimer extends Component {
@@ -138,8 +144,10 @@ export default class WorkoutTimer extends Component {
           <label for="timeOff">Time Off</label>
           <input type="time" name="timeOff" min="00:00" max="60:00" defaultValue="00:20" onChange={this.setTimeOff.bind(this)} />
         </HIITController>
-        <Button buttonText="Start Timer" clickHandler={this.startOnTimer.bind(this)} />
-        <Button buttonText="Pause Timer" clickHandler={this.pauseTimer.bind(this)} />
+        <PlayController>
+        <Button  clickHandler={this.startOnTimer.bind(this)} ><FaPlay/></Button>
+        <Button clickHandler={this.pauseTimer.bind(this)} ><FaPause/></Button>
+        </PlayController>
         <TimerDisplay timeRemaining={this.state.isOn ? this.state.timeOn : this.state.timeOff} routine={this.props.routine} isOn={this.state.isOn} counter={this.state.counter} />
       </TimerWrapper>
     );

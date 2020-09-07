@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { Component } from "react";
+import React from "react";
 
 const ButtonWrapper = styled.button`
   padding: 10px;
@@ -16,12 +16,10 @@ const ButtonWrapper = styled.button`
   }
 `;
 
-export default class Button extends Component{
-  render(){
+export default function Button ({children, clickHandler}){
   return (
-    <ButtonWrapper onClick={this.props.clickHandler}>
-      {this.props.buttonText}
+    <ButtonWrapper onClick={clickHandler}>
+      {children}
     </ButtonWrapper>
   );
-  }
 }
