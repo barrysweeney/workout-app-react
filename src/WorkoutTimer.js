@@ -191,7 +191,7 @@ export default class WorkoutTimer extends Component {
           <Button clickHandler={this.pauseTimer.bind(this)} >Pause <FaPause /></Button>
         </PlayController>
         {this.state.complete ? <div>Workout complete</div> :
-          <TimerDisplay timeRemaining={this.state.isOn ? this.state.timeOn : this.state.timeOff} routine={this.props.routine} isOn={this.state.isOn} counter={this.state.counter} />
+          <TimerDisplay timeRemaining={this.state.isOn ? this.state.timeOn : this.state.timeOff} routine={this.props.routine} isOn={this.state.isOn} counter={this.state.counter} round={this.state.currentRound}/>
         }
       </TimerWrapper>
     );

@@ -15,13 +15,15 @@ const ExerciseContainer = styled.div`
 font-size: 25px;
 `
 
-export default function TimerDisplay({timeRemaining, routine, counter, isOn}) {
+export default function TimerDisplay({timeRemaining, routine, counter, isOn, round}) {
     return (
         <DisplayContainer>
+            <div>Round {round}</div>
+            
             <TimeContainer>
             {timeRemaining}
             </TimeContainer>
-            
+
             {/* production: */}
             <ExerciseContainer>
             {isOn ? routine[counter] : null} 
