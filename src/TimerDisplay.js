@@ -21,17 +21,17 @@ export default function TimerDisplay({timeRemaining, routine, counter, isOn}) {
             <TimeContainer>
             {timeRemaining}
             </TimeContainer>
+            
             {/* production: */}
-            {/* 
             <ExerciseContainer>
             {isOn ? routine[counter] : null} 
             </ExerciseContainer>
-            */}
+           
 
             {/* development: */}
-            <ExerciseContainer>
+            {/* <ExerciseContainer>
             {isOn ? "Pushups" : "Rest"}
-            </ExerciseContainer>
+            </ExerciseContainer> */}
         </DisplayContainer>
     )
 }
