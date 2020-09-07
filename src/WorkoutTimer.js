@@ -109,6 +109,7 @@ export default class WorkoutTimer extends Component {
       if (this.state.currentRound > this.state.rounds) {
         this.setState({
           complete: true,
+          currentRound: 1,
         })
         this.longBell.play();
       } else {
