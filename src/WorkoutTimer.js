@@ -31,6 +31,7 @@ export default class WorkoutTimer extends Component {
     counter: 0,
     timeOn: "00:40",
     timeOff: "00:20",
+    restBetweenRounds: "01:00",
     rounds: 3,
     isOn: false,
     paused: true,
@@ -63,6 +64,50 @@ export default class WorkoutTimer extends Component {
       counter: 0,
       paused: true,
     })
+  }
+
+  setRestBetweenRounds(e) {
+    this.setState({
+      restBetweenRounds: e.target.value,
+      counter: 0,
+      paused: true,
+    })
+  }
+
+  async startRestBetweenRoundTimer() {
+    if (this.state.paused) {
+      this.shortBell.play();
+      await this.setState({
+        isOn: false,
+        paused: false,
+      })
+      const initialRestTime = this.state.restBetweenRounds;
+      let mins = parseInt(this.state.restBetweenRounds.split(":")[0]);
+      let seconds = parseInt(this.state.restBetweenRounds.split(":")[1]);
+      while (seconds > 0) {
+        if (this.state.paused) {
+          break;
+        }
+        await this.wait(1000);
+        seconds -= 1;
+        let formattedMins = mins < 10 ? "0" + mins : mins;
+        let formattedSeconds = seconds < 10 ? "0" + seconds : seconds;
+        this.setState({
+          restBetweenRounds: formattedMins + ":" + formattedSeconds,
+        })
+        if (seconds === 0 && mins > 0) {
+          mins -= 1;
+          seconds = 60;
+        }
+      }
+      if (!this.state.paused) {
+        this.setState({
+          restBetweenRounds: initialRestTime,
+          paused: true,
+        })
+        this.startOnTimer();
+      }
+    }
   }
 
   async startOffTimer() {
@@ -147,14 +192,16 @@ export default class WorkoutTimer extends Component {
                 paused: true,
                 currentRound: this.state.currentRound + 1,
               })
+              this.startRestBetweenRoundTimer();
             } else {
               this.setState({
                 timeOn: initialTimeOn,
                 counter: this.state.counter + 1,
                 paused: true,
               })
+              this.startOffTimer();
             }
-            this.startOffTimer();
+
           }
         }
       }
@@ -185,13 +232,20 @@ export default class WorkoutTimer extends Component {
             onChange={this.setRounds.bind(this)}
             style={{ width: `130px` }}
           />
+          <label for="roundRest">Rest Between Rounds</label>
+          <input
+            type="time"
+            min="00:00" max="60:00" defaultValue="01:00"
+            name="roundRest"
+            onChange={this.setRestBetweenRounds.bind(this)}
+          />
         </HIITController>
         <PlayController>
           <Button clickHandler={this.startOnTimer.bind(this)}>Start <FaPlay /></Button>
           <Button clickHandler={this.pauseTimer.bind(this)} >Pause <FaPause /></Button>
         </PlayController>
         {this.state.complete ? <div>Workout complete</div> :
-          <TimerDisplay timeRemaining={this.state.isOn ? this.state.timeOn : this.state.timeOff} routine={this.props.routine} isOn={this.state.isOn} counter={this.state.counter} round={this.state.currentRound}/>
+          <TimerDisplay timeRemaining={this.state.isOn ? this.state.timeOn : this.state.timeOff} routine={this.props.routine} isOn={this.state.isOn} counter={this.state.counter} round={this.state.currentRound} />
         }
       </TimerWrapper>
     );
