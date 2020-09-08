@@ -37,6 +37,7 @@ export default class WorkoutTimer extends Component {
     paused: true,
     currentRound: 1,
     complete: false,
+    resting: false,
   };
 
   shortBell = new Audio("https://ia800201.us.archive.org/10/items/Sound_Effects/school%20bell.ogg");
@@ -79,6 +80,7 @@ export default class WorkoutTimer extends Component {
       this.shortBell.play();
       await this.setState({
         isOn: false,
+        resting: true,
         paused: false,
       })
       const initialRestTime = this.state.restBetweenRounds;
@@ -116,6 +118,7 @@ export default class WorkoutTimer extends Component {
       await this.setState({
         isOn: false,
         paused: false,
+        resting: false,
       })
       const initialTimeOff = this.state.timeOff;
       let mins = parseInt(this.state.timeOff.split(":")[0]);
@@ -155,6 +158,7 @@ export default class WorkoutTimer extends Component {
         this.setState({
           complete: true,
           currentRound: 1,
+          resting: false,
         })
         this.longBell.play();
       } else {
@@ -164,6 +168,7 @@ export default class WorkoutTimer extends Component {
             isOn: true,
             paused: false,
             complete: false,
+            resting: false,
           })
           const initialTimeOn = this.state.timeOn;
           let mins = parseInt(this.state.timeOn.split(":")[0]);
@@ -198,6 +203,7 @@ export default class WorkoutTimer extends Component {
                 timeOn: initialTimeOn,
                 counter: this.state.counter + 1,
                 paused: true,
+                resting: false,
               })
               this.startOffTimer();
             }
@@ -245,7 +251,7 @@ export default class WorkoutTimer extends Component {
           <Button clickHandler={this.pauseTimer.bind(this)} >Pause <FaPause /></Button>
         </PlayController>
         {this.state.complete ? <div>Workout complete</div> :
-          <TimerDisplay timeRemaining={this.state.isOn ? this.state.timeOn : this.state.timeOff} routine={this.props.routine} isOn={this.state.isOn} counter={this.state.counter} round={this.state.currentRound} />
+          <TimerDisplay timeRemaining={this.state.resting ? this.state.restBetweenRounds : this.state.isOn ? this.state.timeOn : this.state.timeOff} routine={this.props.routine} isOn={this.state.isOn} counter={this.state.counter} round={this.state.currentRound} />
         }
       </TimerWrapper>
     );
