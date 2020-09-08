@@ -26,7 +26,7 @@ export default function TimerDisplay({timeRemaining, routine, counter, isOn, rou
 
             {/* production: */}
             <ExerciseContainer>
-            {isOn ? routine[counter] : Rest} 
+            {isOn ? routine[counter] : "Rest"} 
             </ExerciseContainer>
            
 
