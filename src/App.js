@@ -3,7 +3,6 @@ import { Container } from "./Layout/Container";
 import WorkoutHeader from "./Layout/WorkoutHeader";
 import WorkoutFilter from "./WorkoutFilter";
 import WorkoutRoutine from "./WorkoutRoutine";
-import WorkoutTimer from "./WorkoutTimer";
 
 class App extends Component {
   state = {
@@ -61,7 +60,6 @@ class App extends Component {
           getRandomWorkout={this.getRandomWorkout.bind(this)}
         />
         <WorkoutRoutine routine={this.state.routine} />
-        <WorkoutTimer routine={this.state.routine}/>
       </Container>
     );
   }
